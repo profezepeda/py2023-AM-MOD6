@@ -1,0 +1,31 @@
+{% extends "principal/base.html"%}
+{% load static %}
+
+{% block navegacion%}
+
+  {% for categoria in categorias %}
+    <li class="nav-item">
+      <a class="nav-link " href="{% url 'tecnologia' idcategoria=categoria.idcategoria %}">{{ categoria.nombre }}</a>
+    </li>
+  {% endfor %}
+
+{% endblock %}
+
+{% block titulo %}{{titulo}}{% endblock %}
+
+{% block contenido %}
+
+  {% for noticia in noticias %}
+  <div class="card col-12 col-md-6 col-xl-3">
+    <img src="{{ noticia.imagen }}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">{{ noticia.titulo|title }}</h5>
+      <p class="card-text">{{ noticia.contenido }}</p>
+      <a href="/noticia/{{ noticia.idnoticia }}" class="btn btn-primary">Go somewhere</a>
+    </div>
+  </div>
+  {% endfor %}
+
+  <p>{{ noticias|length }} de artículos desplegados</p>
+
+{% endblock %}
