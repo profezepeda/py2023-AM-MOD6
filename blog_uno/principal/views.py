@@ -3,6 +3,8 @@ import uuid
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
 
+from principal.forms import FormularioContacto
+
 # Create your views here.
 
 categorias = [
@@ -96,3 +98,12 @@ class CategoriaView(TemplateView):
     if titulo is None:
       return redirect('home')
     return render(request, self.template_name, contexto)
+
+class ContactoView(TemplateView):
+  template_name = 'principal/contacto_part.html'
+
+  def get(self, request, *args, **kwargs):
+    # context = super(ContactoView, self).get_context_data(**kwargs)
+    # context["fomulario"] = FormularioContacto()
+    formulario = FormularioContacto()
+    return render(request, self.template_name, { "formulario": formulario})

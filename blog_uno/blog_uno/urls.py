@@ -18,11 +18,12 @@ from django.contrib import admin
 from django.urls import path
 
 from principal.views import home
-from principal.views import HomeView, CategoriaView
+from principal.views import HomeView, CategoriaView, ContactoView
 # from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomeView.as_view(), name='home'),
     path('tecnologia/<int:idcategoria>', CategoriaView.as_view(), name='tecnologia'),
+    path('contacto/', ContactoView.as_view(), name='contacto'),
 ]
