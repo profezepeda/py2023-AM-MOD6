@@ -1,6 +1,6 @@
 from django import forms
 
-class FormularioContacto(forms.Form):
+class FormularioContactoForm(forms.Form):
   nombre = forms.CharField(label='Nombre', required=True,
                             max_length=50,
                             error_messages={
