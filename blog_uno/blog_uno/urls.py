@@ -16,10 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.decorators import login_required
 from django.urls import path
 
 from principal.views import home
-from principal.views import HomeView, CategoriaView, ContactoView
+from principal.views import HomeView, CategoriaView, ContactoView, IngresoView, AreaRestringidaView
 # from django.views.generic import TemplateView
 
 urlpatterns = [
@@ -27,6 +28,9 @@ urlpatterns = [
     path('', HomeView.as_view(), name='home'),
     path('tecnologia/<int:idcategoria>', CategoriaView.as_view(), name='tecnologia'),
     path('contacto/', ContactoView.as_view(), name='contacto'),
-    path('login/', LoginView.as_view(), name='login'),
-    path('logout/', LogoutView.as_view(), name='logout')
+    # path('login/', LoginView.as_view(), name='login'),
+    path('login/', IngresoView.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+    # path('restringida/', login_required(AreaRestringidaView.as_view()), name='restringida')
+    path('restringida/', AreaRestringidaView.as_view(), name='restringida')
 ]

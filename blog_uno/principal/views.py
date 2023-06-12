@@ -2,9 +2,14 @@ from typing import Any, Dict
 import uuid
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.utils.decorators import method_decorator
 
 from principal.forms import FormularioContactoForm
 from principal.models import FormularioContacto
+from principal.forms import LoginForm
 
 # Create your views here.
 
@@ -137,3 +142,40 @@ class ContactoView(TemplateView):
     else:
       mensajes = { "enviado": False, "resultado": form.errors }
     return render(request, self.template_name, { "formulario": form, "mensajes": mensajes})
+
+class IngresoView(TemplateView):
+  template_name = 'registration/login.html'
+
+  def get(self, request, *args, **kwargs):
+    form = LoginForm()
+    return render(request, self.template_name, { "form": form })
+  
+  def post(self, request, *args, **kwargs):
+    form = LoginForm(request.POST)
+    if form.is_valid():
+      username = form.cleaned_data['username']
+      password = form.cleaned_data['password']
+      user = authenticate(username=username, password=password)
+      if user is not None:
+        if user.is_active:
+          login(request, user)
+          return redirect('home')
+      form.add_error('username', 'Credenciales incorrectas')
+      return render(request, self.template_name, { "form": form })
+    else:
+      return render(request, self.template_name, { "form": form })
+
+class AreaRestringidaView(PermissionRequiredMixin, LoginRequiredMixin, TemplateView):
+  template_name = 'principal/restringido.html'
+  permission_required = 'principal.puede_leer_formulario'
+
+  # @method_decorator(login_required)
+  def get(self, request, *args, **kwargs):
+    titulo = "Restringido"
+    contexto = {
+      'titulo': titulo,
+      "categorias": categorias
+    }
+    if titulo is None:
+      return redirect('home')
+    return render(request, self.template_name, contexto)
