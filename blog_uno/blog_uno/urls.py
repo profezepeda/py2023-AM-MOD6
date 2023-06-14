@@ -24,7 +24,7 @@ from principal.views import HomeView, CategoriaView, ContactoView, IngresoView, 
 # from django.views.generic import TemplateView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('administracion/', admin.site.urls),
     path('', HomeView.as_view(), name='home'),
     path('tecnologia/<int:idcategoria>', CategoriaView.as_view(), name='tecnologia'),
     path('contacto/', ContactoView.as_view(), name='contacto'),

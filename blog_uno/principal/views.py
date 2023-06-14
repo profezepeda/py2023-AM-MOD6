@@ -30,6 +30,10 @@ categorias = [
     'idcategoria': 4,
     'nombre': 'Django',
   },
+  {
+    'idcategoria': 5,
+    'nombre': 'Linux',
+  }
 ]
 
 def home(request):
